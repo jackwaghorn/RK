@@ -90,7 +90,7 @@
           </div>
           <div class="col-12 p-0" v-if="currentStock === 0">
             <img
-              src="@/img/shop/sold-out.png"
+              src="/img/shop/sold-out.png"
               class="img-fluid sold-out"
               alt=""
             />
