@@ -29,7 +29,7 @@
             <img
               v-if="product.inventory === 0"
               class="sold-out"
-              src="@/img/shop/sold-out.png"
+              src="/img/shop/sold-out.png"
               alt=""
             />
           </div>

@@ -31,7 +31,7 @@
             <prismic-rich-text :field="list.list" />
           </div>
           <div class="col pb-3 d-md-none"><div class="instagram-icon p-0"><a href="https://www.instagram.com/roxanakenjeeva/" target="_blank">
-          <img class="img-fluid" src="@/img/nav/instagram.png" alt=""></a></div></div>
+          <img class="img-fluid" src="/img/nav/instagram.png" alt=""></a></div></div>
           
         </div>
       </div>

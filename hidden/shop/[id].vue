@@ -40,7 +40,7 @@
               <button @click="decrement()">
                 <img
                   class="quantity-button"
-                  src="@/img/shop/minus.png"
+                  src="/img/shop/minus.png"
                   alt=""
                 />
               </button>
@@ -54,7 +54,7 @@
                 />
               </h6>
               <button @click="increment()">
-                <img class="quantity-button" src="@/img/shop/plus.png" alt="" />
+                <img class="quantity-button" src="/img/shop/plus.png" alt="" />
               </button>
             </div>
           </div>
@@ -79,7 +79,7 @@
           </div>
           <div class="col-12 p-0" v-if="currentStock === 0">
             <img
-              src="@/img/shop/sold-out.png"
+              src="/img/shop/sold-out.png"
               class="img-fluid sold-out"
               alt=""
             />
