@@ -126,7 +126,7 @@ body {
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 .swiper-button-next {
-  background-image: url("~/img/shop/arrow-right.png") !important;
+  background-image: url("/img/shop/arrow-right.png") !important;
   background-repeat: no-repeat;
   background-size: 100% auto;
   background-position: center;
@@ -136,7 +136,7 @@ body {
   display: none;
 }
 .swiper-button-prev {
-  background-image: url("~/img/shop/arrow-left.png") !important;
+  background-image: url("/img/shop/arrow-left.png") !important;
   background-repeat: no-repeat;
   background-size: 100% auto;
   background-position: center;

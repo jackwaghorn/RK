@@ -2,12 +2,12 @@
   <div>
     <div class="arrow left">
       <NuxtLink tag="div" :to="uidPrevious">
-        <img class="img-fluid" src="~/assets/img/nav/arrow-left.png" alt="" />
+        <img class="img-fluid" src="/img/nav/arrow-left.png" alt="" />
       </NuxtLink>
     </div>
     <div class="arrow right">
       <NuxtLink tag="div" :to="uidNext">
-        <img class="img-fluid" src="~/assets/img/nav/arrow-right.png" alt="" />
+        <img class="img-fluid" src="/img/nav/arrow-right.png" alt="" />
       </NuxtLink>
     </div>
   </div>

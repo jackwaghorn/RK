@@ -1,10 +1,10 @@
 <template>
   <div>
     <router-link tag="div" :to="uidPrevious" class="previous icons">
-      <img class="previous" src="~/assets/img/shop/arrow-left.png" alt=""
+      <img class="previous" src="/img/shop/arrow-left.png" alt=""
     /></router-link>
     <router-link tag="div" class="next icons" :to="uidNext">
-      <img class="next" src="~/assets/img/shop/arrow-right.png" alt=""
+      <img class="next" src="/img/shop/arrow-right.png" alt=""
     /></router-link>
   </div>
 </template>

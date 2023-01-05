@@ -72,7 +72,7 @@ export default {
 }
 
 .swiper-button-next {
-  background-image: url("~/img/shop/arrow-right.png");
+  background-image: url("/img/shop/arrow-right.png");
   background-repeat: no-repeat;
   background-size: 100% auto;
   background-position: center;
