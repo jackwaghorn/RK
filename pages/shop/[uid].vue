@@ -1,131 +1,95 @@
 <template>
-  <div class="container-md my-md-5 my-0 pt-5 mt-5">
-    <div class="row justify-content-around">
-      <div class="col-12 col-md-6 mb-5 mb-md-0 pb-md-0 order-md-last">
-        <div class="row sticky-guy">
-          <div class="col-12">
-            <UiSkeletonBox v-if="!textLoaded" :min-width="20" :max-width="40" />
-            <h6 v-if="textLoaded" class="m-0 title-text">
-              {{ data.data.name[0].text }}
-            </h6>
-          </div>
+  <div v-if="tab === 'shop'">
+    <div class="mb-2 title">
+      {{ data.data.name[0].text }}
+    </div>
 
-          <div class="col-12 mt-3">
-            <UiSkeletonBox v-if="!textLoaded" :min-width="20" :max-width="20" />
-            <p v-if="textLoaded" class="m-0 title-type">
-              {{ data.data.type[0].text }}
-            </p>
-          </div>
-          <div class="col-12">
-            <UiSkeletonBox v-if="!textLoaded" :min-width="10" :max-width="20" />
-            <p v-if="textLoaded" class="yeartext m-0">
-              {{ data.data.format[0].text }}
-            </p>
-          </div>
+    <div class="type">
+      {{ data.data.type[0].text }}
+    </div>
 
-          <div class="col-12 mt-4">
-            <div v-if="!textLoaded">
-              <UiSkeletonBox :min-width="60" :max-width="72" />
-              <UiSkeletonBox :min-width="63" :max-width="70" />
-              <UiSkeletonBox :min-width="62" :max-width="69" />
-            </div>
-            <prismic-rich-text
-              v-if="textLoaded"
-              :field="data.data.description"
-            />
-          </div>
+    <div class="type mb-2">
+      {{ data.data.format[0].text }}
+    </div>
 
-          <div class="col-12 my-1 price">
-            <UiSkeletonBox v-if="!textLoaded" :min-width="8" :max-width="15" />
+    <prismic-rich-text :field="data.data.description" />
 
-            <h6 v-if="textLoaded" class="m-0">
-              <span v-if="selectedCurrencyState === 'eur'">€{{ euro }}</span>
-              <span v-if="selectedCurrencyState === 'gbp'">£{{ pound }}</span>
-            </h6>
-          </div>
-          <div class="col-12 mt-3" v-if="currentStock > 0">
-            <label for="quantity" class="yeartext">Quantity:</label>
-          </div>
-
-          <div class="col-12" v-if="currentStock > 0">
-            <div class="quantity-toggle">
-              <button @click="decrement()">
-                <img
-                  class="quantity-button"
-                  src="/img/shop/minus.png"
-                  alt=""
-                />
-              </button>
-              <h6 class="m-0">
-                <input
-                  type="number"
-                  v-model="quantity"
-                  min="1"
-                  max="10"
-                  :placeholder="quantity"
-                />
-              </h6>
-              <button @click="increment()">
-                <img class="quantity-button" src="/img/shop/plus.png" alt="" />
-              </button>
-            </div>
-          </div>
-          <div class="col-12 mt-4" v-if="currentStock > 0">
-            <button
-              class="snipcart-add-item p-0"
-              :data-item-id="id"
-              :data-item-price="price"
-              data-item-url="https://roxanakenjeeva.com/"
-              :data-item-weight="data.data.weight"
-              :data-item-description="data.data.description[0].text"
-              :data-item-name="data.data.name[0].text"
-              :data-item-image="data.data.image.url"
-              data-item-custom1-name="Format"
-              data-item-custom1-type="readonly"
-              :data-item-custom1-value="data.data.format[0].text"
-              :data-item-quantity="quantity"
-            >
-              <div class="cart-button add-to">Add to Cart</div>
-            </button>
-          </div>
-          <div class="col-12 p-0" v-if="currentStock === 0">
-            <img
-              src="/img/shop/sold-out.png"
-              class="img-fluid sold-out"
-              alt=""
-            />
-          </div>
-        </div>
-      </div>
-      <div
-        class="col-12 col-md-6 order-md-first"
-        :class="{ 'mb-4 pb-5': multipleImages }"
-      >
-        <div
-          v-for="(image, index) in gallery"
-          :key="index"
-          class="photo d-flex justify-content-center"
-          :class="{ 'mt-3 pt-3': addPadding(index) }"
+    <div class="col-12 my-1 price">
+      <h6 class="m-0">
+        <span v-if="dataStore.selectedCurrencyState === 'eur'"
+          >€{{ euro }}</span
         >
+        <span v-if="dataStore.selectedCurrencyState === 'gbp'"
+          >£{{ pound }}</span
+        >
+      </h6>
+    </div>
+    <div class="col-12 mt-3" v-if="currentStock > 0">
+      <label for="quantity" class="yeartext">Quantity:</label>
+    </div>
+
+    <div class="col-12" v-if="currentStock > 0">
+      <div class="quantity-toggle">
+        <button @click="decrement()">
           <img
-            :src="image.image1.url"
+            class="quantity-button"
+            src="~/assets/img/shop/minus.png"
             alt=""
-            class="img-fluid img-background"
-            :style="imageRatio(image)"
-            :height="image.image1.dimensions.height"
-            :width="image.image1.dimensions.width"
           />
-        </div>
+        </button>
+        <h6 class="m-0">
+          <input
+            type="number"
+            v-model="quantity"
+            min="1"
+            max="10"
+            :placeholder="quantity"
+          />
+        </h6>
+        <button @click="increment()">
+          <img
+            class="quantity-button"
+            src="~/assets/img/shop/plus.png"
+            alt=""
+          />
+        </button>
       </div>
+    </div>
+    <div class="col-12 mt-4" v-if="currentStock > 0">
+      <button
+        class="snipcart-add-item p-0"
+        :data-item-id="id"
+        :data-item-price="price"
+        :data-item-weight="data.data.weight"
+        :data-item-description="data.data.description[0].text"
+        :data-item-name="data.data.name[0].text"
+        :data-item-image="data.data.image.url"
+        data-item-custom1-name="Format"
+        data-item-custom1-type="readonly"
+        :data-item-custom1-value="data.data.format[0].text"
+        :data-item-quantity="quantity"
+      >
+        <div class="cart-button add-to">Add to Cart</div>
+      </button>
+    </div>
+    <div class="col-12 p-0" v-if="currentStock === 0">
+      <img
+        src="~/assets/img/shop/sold-out.png"
+        class="img-fluid sold-out"
+        alt=""
+      />
     </div>
   </div>
 </template>
 
 <script setup>
-import mockStockInventory from "~/assets/mock-stock.json";
-import useCurrency from "~/assets/currency";
+import { useDataStore } from "~/stores/store";
+const dataStore = useDataStore();
 
-const { selectedCurrencyState, fetchCurrency } = useCurrency();
+import { Buffer } from "buffer";
+
+const route = useRoute();
+const props = defineProps(["tab"]);
 
 const product = ref({});
 const multipleImages = ref(false);
@@ -136,44 +100,53 @@ const id = ref([]);
 const windowRatio = 1;
 const quantity = ref(1);
 const stockInventory = ref({});
-const outOfStock = ref([]);
+const currentStock = ref(1);
 const price = ref([]);
 const euro = ref([]);
 const pound = ref([]);
 const title = ref([]);
-const currentStock = ref([]);
+const thisItemOnSnipcart = ref({});
 const gallery = ref([]);
 
-const getSnipcartInventory = async () => {
-  // const response = await fetch(
-  //   "https://roxanakenjeeva.com/.netlify/functions/snipcart-inventory"
-  // ).then((response) => response.json());
-  // stockInventory.value = JSON.stringify(response);
-  // let newData = JSON.parse(stockInventory.value);
+const fetchInventory = async () => {
+  const snipcartKey =
+    "ST_YWM2YmI1NWMtOGJmYS00ZmMzLThjMmUtYzQ2ZGNiYmU1ZGRiNjM3NjYwODY0NDgzODQ2ODg4";
 
-  // Remove after test
-  let mockData = JSON.stringify(mockStockInventory);
-  let newData = JSON.parse(mockData);
+  const request = await useFetch("https://app.snipcart.com/api/products", {
+    headers: {
+      Authorization: `Basic ${Buffer.from(snipcartKey).toString("base64")}`,
+      Accept: "application/json",
+    },
+  });
 
-  let result = newData.filter((obj) => {
+  const result = request.data.value;
+
+  let newItems = Object.values(result.items).map((item) => {
+    return {
+      name: item.name,
+      id: item.userDefinedId,
+      inventory: item.stock,
+    };
+  });
+
+  thisItemOnSnipcart.value = newItems.filter((obj) => {
     return obj.id === id.value;
   });
 
-  currentStock.value = result[0].inventory;
+  if (Object.keys(thisItemOnSnipcart.value).length !== 0) {
+    currentStock.value = thisItemOnSnipcart.value[0].inventory;
+  }
 };
-
-
 
 function sortData() {
   id.value = data.value.id;
   euro.value = data.value.data.euro;
   pound.value = data.value.data.pound;
   title.value = data.value.data.name[0].text;
-  fetchCurrency();
-  if (selectedCurrencyState.value === "eur") {
+  if (dataStore.selectedCurrencyState === "eur") {
     price.value = euro.value;
   }
-  if (selectedCurrencyState.value === "gbp") {
+  if (dataStore.selectedCurrencyState === "gbp") {
     price.value = pound.value;
   }
 
@@ -181,18 +154,19 @@ function sortData() {
     multipleImages.value = true;
   }
   gallery.value = data.value.data.gallery;
-  getSnipcartInventory();
+  fetchInventory();
   textLoaded.value = true;
 }
 const { client } = usePrismic();
 const { data: data } = await useAsyncData("data", async () =>
   client.getByUID("product", uid)
 );
+dataStore.updatePrismicData(data.value);
+
 sortData();
 
 function increment() {
-
-  if (quantity === 20) {
+  if (quantity.value >= currentStock.value) {
     return;
   } else {
     quantity.value++;
@@ -200,7 +174,7 @@ function increment() {
 }
 
 function decrement() {
-  if (quantity === 1) {
+  if (quantity.value <= 1) {
     return;
   } else {
     quantity.value--;
@@ -283,7 +257,7 @@ input[type="number"] {
 .cart-button {
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  background-image: url("../../img/shop/add-to-cart.png");
+  background-image: url("~/assets/img/shop/add-to-cart.png");
   padding: 2px 14px 2px 14px;
   transition: opacity 0.2s ease;
 }
@@ -296,9 +270,8 @@ button {
   transition: color 0.2s ease;
 }
 
-.title-text {
-  font-weight: bold;
-  color: rgb(46, 46, 46);
+.title {
+  font-weight: 600;
 }
 .photo {
   scroll-snap-align: start;
@@ -317,12 +290,8 @@ button {
   position: sticky;
   top: 120px;
 }
-.title-type {
-  color: grey;
-}
-
-.yeartext {
-  color: grey;
+.type {
+  opacity: 0.5;
 }
 </style>
 

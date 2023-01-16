@@ -1,6 +1,0 @@
-<template>
-  <ProjectsView />
-
-</template>
-
-

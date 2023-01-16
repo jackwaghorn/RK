@@ -8,19 +8,14 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@nuxt/image": "^0.7.1",
     "@nuxtjs/prismic": "^3.0.0-rc.2",
     "nuxt": "3.0.0"
   },
   "dependencies": {
-    "imagesloaded": "^5.0.0",
+    "@pinia/nuxt": "^0.4.6",
+    "buffer": "^6.0.3",
     "lazysizes": "^5.3.2",
-    "masonry-layout": "^4.2.2",
-    "matter-js": "^0.17.1",
-    "nuxt-swiper": "^0.1.6",
-    "photoswipe": "^5.3.4",
     "plyr": "^3.7.3",
-    "poly-decomp": "^0.3.0",
     "swiper": "^8.4.5"
   }
 }
