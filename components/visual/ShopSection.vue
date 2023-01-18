@@ -1,10 +1,10 @@
 <template>
-  <div class="container-fluid pt-5">
+  <div class="container-fluid pt-5 mt-2 mt-md-0 pb-5">
+ 
     <div class="row">
-      <!-- Left -->
       <div class="col-md-6 col-12 pe-md-2">
         <div
-          v-for="(product, index) in orderedArtworks.left"
+          v-for="(product, index) in left"
           :key="index"
           class="col-12"
         >
@@ -36,7 +36,7 @@
 
       <div class="col-md-6 col-12 ps-md-2">
         <div
-          v-for="(product, index) in orderedArtworks.right"
+          v-for="(product, index) in right"
           :key="index"
           class="col-12"
         >
@@ -71,28 +71,27 @@
 </template>
 <script setup>
 import { useDataStore } from "~/stores/store";
-import { storeToRefs } from "pinia";
 const dataStore = useDataStore();
-const { getPrismicData } = storeToRefs(dataStore);
 
-const products = ref();
-products.value = getPrismicData.value;
+const left = ref([]);
+const right = ref([]);
 
-const orderedArtworks = ref({ left: [], right: [] });
-
-onMounted(() => {
-  layout();
-});
-
-function layout() {
-  for (let i = 0; i < products.value.length; i++) {
-    if (i % 2 == 0) {
-      orderedArtworks.value.left.push(products.value[i]);
-    } else {
-      orderedArtworks.value.right.push(products.value[i]);
-    }
+const { client } = usePrismic();
+const { data: products } = await useAsyncData(
+  "products",
+  () => client.getAllByType("product"),
+  {
+    transform: (response) => {
+      for (let i = 0; i < response.length; i++) {
+        if (i % 2 == 0) {
+          left.value.push(response[i]);
+        } else {
+          right.value.push(response[i]);
+        }
+      }
+    },
   }
-}
+);
 
 function imageRatio(e) {
   let height = e.dimensions.height;

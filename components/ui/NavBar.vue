@@ -1,45 +1,98 @@
 <template>
-  <nav class="d-flex justify-content-between">
-    <div class="dot-wrapper">
-      <div ref="dot" class="dot"></div>
-    </div>
-    <div
-      class="
-        row
-        links-wrapper
-        mx-4
-        d-flex
-        flex-column
-        align-items-center
-        flex-nowrap
-      "
-    >
+  <div class="d-none d-md-block">
+    <nav class="d-flex justify-content-between">
+      <div class="dot-wrapper">
+        <div ref="dot" class="dot"></div>
+      </div>
       <div
-        v-for="(link, index) in links"
-        :key="index"
-        class="col-10 link-container"
-        :style="[selectedLink === index ? 'flex-grow:1' : '']"
+        class="
+          row
+          links-wrapper
+          mx-lg-4 mx-md-1
+          d-flex
+          flex-column
+          align-items-center
+          flex-nowrap
+        "
       >
-        <NuxtLink
-          @click="expand(link, index)"
-          class="navigation-link"
-          :to="'/' + link"
-          >{{ link }}</NuxtLink
+        <div
+          v-for="(link, index) in links"
+          :key="index"
+          class="col-10 link-container"
+          :style="[selectedLink === index ? 'flex-grow:1' : '']"
         >
-        <div class="text-wrapper">
-          <div
-            @mouseover="disableScroll"
-            @mouseleave="enableScroll"
-            class="text-content"
+          <NuxtLink
+            @click="expand(link, index)"
+            class="navigation-link"
+            :to="'/' + link"
+            >{{ link }}</NuxtLink
           >
-            <NuxtPage :tab="link" />
+          <div class="text-wrapper">
+            <div
+              @mouseover="disableScroll"
+              @mouseleave="enableScroll"
+              class="text-content"
+            >
+              <NuxtPage :tab="link" />
+            </div>
           </div>
         </div>
       </div>
+    </nav>
+  </div>
+  <!-- Mobile navigation -->
+  <div class="mobile-banner d-block d-md-none">
+    <div class="row d-flex justify-content-between align-items-center m-2">
+      <div class="col-auto ps-1">
+        <div class="name-wrapper">
+          <NuxtLink to="/">
+            Roxana <br />
+            Kenjeeva
+          </NuxtLink>
+        </div>
+      </div>
+      <div @click="showMobileNav = !showMobileNav" class="col-auto">
+        <img
+          v-if="!showMobileNav"
+          class="menu-icon"
+          src="~/assets/img/menu.png"
+          alt=""
+        />
+        <img
+          v-if="showMobileNav"
+          class="menu-icon"
+          src="~/assets/img/cross.png"
+          alt=""
+        />
+      </div>
     </div>
-  </nav>
-
-  <div class="banner">
+  </div>
+  <transition name="slide">
+    <div v-if="showMobileNav" class="mobile-nav-modal">
+      <div
+        class="
+          h-100
+          d-flex
+          flex-column
+          justify-content-start
+          align-items-center
+          pt-5
+        "
+      >
+        <NuxtLink
+          v-for="(link, index) in links"
+          :key="index"
+          class="col-9 text-left navigation-link mobile-link py-2 ps-4"
+          :class="[index === 0 ? 'pt-3' : '']"
+          :to="'/' + link"
+          @click="showMobileNav = false"
+          >{{ link }}</NuxtLink
+        >
+      </div>
+    </div></transition
+  >
+  <!-- Desktop navigation -->
+  <div class="desktop-banner d-none d-md-block">
     <div class="name-wrapper">
       <NuxtLink @click="selectedLink = null" to="/">
         <span class="rox">Roxana</span>
@@ -52,9 +105,16 @@
   <div class="icons">
     <div class="row d-flex justify-content-end">
       <UiShopBasket v-show="route.name.includes('shop')" />
-      <img class="icon img-fluid" src="~/assets/img/email.svg" alt="" />
-
-      <img class="icon img-fluid" src="~/assets/img/instagram.svg" alt="" />
+      <a href="mailto:roxanakenjeeva@gmail.com" target="_top" class="icon">
+        <img class="icon img-fluid" src="~/assets/img/email.svg" alt=""
+      /></a>
+      <a
+        href="https://www.instagram.com/roxanakenjeeva/"
+        target="_blank"
+        class="icon"
+      >
+        <img class="icon img-fluid" src="~/assets/img/instagram.svg" alt=""
+      /></a>
     </div>
   </div>
 </template>
@@ -70,6 +130,8 @@ const links = [
   "shop",
 ];
 const selectedLink = ref(null);
+
+const showMobileNav = ref(false);
 
 function expand(link, index) {
   selectedLink.value = index;
@@ -91,12 +153,35 @@ onMounted(() => {
 
   window.addEventListener("scroll", function () {
     let maxHeight = document.body.scrollHeight - window.innerHeight;
-    dot.value.style.top =
-      Math.min(100, (window.pageYOffset * 100) / maxHeight) + "%";
+    if (dot.value) {
+      dot.value.style.top =
+        Math.min(100, (window.pageYOffset * 100) / maxHeight) + "%";
+    }
   });
 });
 </script>
 <style scoped>
+.mobile-nav-modal {
+  background: #f5f5f5f8;
+  backdrop-filter: blur(10px);
+
+  position: fixed;
+  z-index: 2;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.mobile-link {
+  border-bottom: 1px solid black;
+  text-decoration: none;
+}
+.menu-icon {
+  width: 2rem;
+  height: 2rem;
+}
 .dot {
   height: 0.5rem;
   width: 0.5rem;
@@ -104,10 +189,10 @@ onMounted(() => {
   border-radius: 50%;
   position: absolute;
   left: 0;
-  transform: translateX(1.28rem);
   top: 0;
   transition: top ease-out 100ms;
 }
+
 .dot-wrapper {
   position: relative;
   height: 100%;
@@ -120,9 +205,14 @@ onMounted(() => {
   bottom: 0;
   right: 0;
   padding: 1rem;
+  z-index: 3;
 }
 .icon {
   width: 3.9rem;
+}
+.icon:hover {
+  filter: invert(68%) sepia(85%) saturate(1612%) hue-rotate(331deg)
+    brightness(104%) contrast(101%);
 }
 .magic {
   flex-grow: 1;
@@ -178,7 +268,7 @@ onMounted(() => {
 }
 
 nav {
-  width: 28rem;
+  width: 25rem;
   float: right;
   position: fixed;
   height: 100%;
@@ -191,13 +281,37 @@ nav {
   padding-top: 3rem;
   padding-bottom: 4rem;
 }
+@media (min-width: 992px) {
+  nav {
+    width: 28rem;
+  }
 
-.banner {
+  .dot {
+    transform: translateX(1.28rem);
+  }
+}
+
+.desktop-banner {
   text-transform: uppercase;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
+}
+.mobile-banner {
+  background: #f5f5f5;
+  text-transform: uppercase;
+  position: fixed;
+  top: 0;
+  left: 0;
+  left: 0;
+  height: 3.4rem;
+  z-index: 3;
+  width: 100%;
+  line-height: 1.2rem;
+}
+.mobile-banner a {
+  text-decoration: none;
 }
 .name-wrapper {
   position: relative;
@@ -246,5 +360,25 @@ nav a:hover {
 }
 .router-link-active {
   color: #ff993c;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  opacity: 0;
+  transform: translateY(-100vh);
+}
+
+.slide-enter-active {
+  transition: opacity 200ms ease-out, transform 200ms ease-out;
+}
+
+.slide-leave-active {
+  transition: opacity 200ms ease-in, transform 200ms ease-in;
+}
+
+.slide-enter-to,
+.slide-leave-from {
+  transform: translateY(0);
+  opacity: 1;
 }
 </style>

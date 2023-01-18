@@ -1,12 +1,12 @@
 <template>
-  <div class="container-fluid pt-5">
+  <div class="container-fluid pt-5 mt-2 mt-md-0 mb-5 mb-md-0">
     <div v-show="!showGallery" class="row">
       <div class="col-md-6 col-12 pe-md-2">
         <div
           @click="displayGallery(image)"
           v-for="(image, index) in orderedArtworks.left"
           :key="index"
-          class="col-12"
+          class="col-12 gallery-item"
         >
           <img
             class="img-fluid lazyload"
@@ -24,7 +24,7 @@
           @click="displayGallery(image)"
           v-for="(image, index) in orderedArtworks.right"
           :key="index"
-          class="col-12"
+          class="col-12 gallery-item"
         >
           <img
             class="img-fluid lazyload"
@@ -163,6 +163,9 @@ function clickCross() {
 </script>
 
 <style>
+.gallery-item:hover {
+cursor:pointer;
+}
 .custom-swiper-container {
   opacity: 0;
   height: 0;
@@ -182,6 +185,9 @@ function clickCross() {
   top: 0;
   right: 0;
   z-index: 2;
+}
+.close-cross:hover {
+  cursor:pointer;
 }
 .image-wrapper {
   transition: transform ease 500ms;

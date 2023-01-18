@@ -1,16 +1,20 @@
 <template>
-  <div class="container-fluid pt-5">
+  <div class="container-fluid pt-5 mt-2 mt-md-0">
     <div
       class="pb-5 mb-5 project-gallery"
-      v-for="(gallery, index) in projectGalleries"
+      v-for="(gallery, index) in projectGalleries.data.body"
       :key="index"
       :id="index"
-    >
+    ><div class="d-block d-md-none">
+         <div class="col-12 title mb-2">{{ gallery.primary.title[0].text }}</div>
+      <prismic-rich-text
+        :field="gallery.primary.description"
+      ></prismic-rich-text></div>
       <Swiper
         :slidesPerView="1"
         :spaceBetween="0"
         :loop="true"
-        class="d-flex justify-content-center align-items-center"
+        class="d-flex justify-content-center align-items-center mt-5 mt-md-0"
         :navigation="true"
       >
         <SwiperSlide
@@ -22,6 +26,7 @@
             justify-content-center
             flex-column
             align-items-center
+            align-self-center
           "
           :id="index"
         >
@@ -54,7 +59,7 @@ SwiperCore.use([Navigation]);
 
 const projectGalleries = ref([]);
 
-projectGalleries.value = getPrismicData.value.data.body;
+projectGalleries.value = getPrismicData.value;
 onMounted(() => {
   observe();
 });
@@ -106,6 +111,9 @@ function imageRatio(e) {
 </script>
 
 <style scoped>
+.title {
+  font-weight: 600;
+}
 .custom-swiper-container {
   opacity: 0;
   height: 0;
@@ -121,7 +129,14 @@ function imageRatio(e) {
 
 .image-wrapper {
   transform: scale(1);
-  height: 85vh;
+  height: 100%;
+}
+
+@media (min-width: 768px) {
+  .image-wrapper {
+    transform: scale(1);
+    height: 85vh;
+  }
 }
 .swiper-button-next {
   background-image: url("~/assets/img/arrow-right.png") !important;

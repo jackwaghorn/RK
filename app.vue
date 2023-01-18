@@ -1,8 +1,13 @@
 <template>
   <div class="content-wrapper">
     <client-only>
-    <component :is="componentMapper[route.name]"></component></client-only>
-   
+      <transition name="route" mode="out-in">
+        <component
+          class="route-page"
+          :is="componentMapper[route.name]"
+        ></component>
+      </transition>
+    </client-only>
     <UiNavBar />
   </div>
 </template>
@@ -23,7 +28,7 @@ const componentMapper = {
   research: ResearchSection,
   oranges: OrangesSection,
   shop: ShopSection,
-  'shop-uid': ProductSection
+  "shop-uid": ProductSection,
 };
 const route = useRoute();
 </script>
@@ -43,11 +48,31 @@ const route = useRoute();
   height: 100%;
 }
 .content-wrapper {
-  margin-left: 2rem;
-  max-width: calc(100% - 30rem);
+  max-width: 100%;
 }
+
+@media (min-width: 992px) {
+  .content-wrapper {
+    margin-left: 2rem;
+    max-width: calc(100% - 30rem);
+  }
+}
+
+@media (min-width: 768px) {
+  .content-wrapper {
+    margin-left: 2rem;
+    max-width: calc(100% - 28rem);
+  }
+}
+.route-page {
+  font-size: 0.85rem;
+}
+
 body {
   background: #f5f5f5;
+    -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  user-select: none;
 }
 .route-enter-from,
 .route-leave-to {
@@ -72,9 +97,4 @@ body::-webkit-scrollbar {
   display: none;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
-body {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
 </style>

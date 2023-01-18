@@ -133,7 +133,7 @@ select {
   transition: all 0.3s ease;
 }
 .basket-image:hover {
-  filter: contrast(50%) brightness(130%);
+  filter: invert(68%) sepia(85%) saturate(1612%) hue-rotate(331deg) brightness(104%) contrast(101%);
 
   cursor: pointer;
 }

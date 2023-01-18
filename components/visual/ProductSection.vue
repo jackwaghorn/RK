@@ -1,6 +1,8 @@
 <template>
-  <div class="container-fluid pt-5">
+  <div class="container-fluid pt-5 mt-2 mt-md-0">
+    <UiProductDetails class="d-block d-md-none" />
     <Swiper
+      v-if="dataFetched"
       :slidesPerView="1"
       :spaceBetween="0"
       :loop="true"
@@ -8,7 +10,7 @@
       :navigation="true"
     >
       <SwiperSlide
-        v-for="(slide, index) in product.data.gallery"
+        v-for="(slide, index) in getProductData.data.gallery"
         :key="index"
         class="
           image-slide
@@ -19,10 +21,7 @@
         "
         :id="index"
       >
-        <div
-        
-          class="image-wrapper d-flex align-items-center"
-        >
+        <div class="image-wrapper d-flex align-items-center">
           <img
             :data-src="slide.image1.url"
             alt=""
@@ -44,13 +43,36 @@ import { storeToRefs } from "pinia";
 import "swiper/css";
 import "swiper/css/navigation";
 const dataStore = useDataStore();
-const { getPrismicData } = storeToRefs(dataStore);
+const { getProductData } = storeToRefs(dataStore);
 
 SwiperCore.use([Navigation]);
 
 const product = ref();
-product.value = getPrismicData.value;
 
+const dataFetched = ref(false);
+// if (getProductData.value.data) {
+
+//   product.value = getProductData.value.data.gallery;
+//   dataFetched.value = true;
+// }
+//   console.log(getProductData.value)
+
+dataStore.$onAction(
+  ({
+    name, // name of the action
+    store, // store instance, same as `someStore`
+    args, // array of parameters passed to the action
+    after, // hook after the action returns or resolves
+    onError, // hook if the action throws or rejects
+  }) => {
+    after(() => {
+      if (name === "updateProductData") {
+        product.value = getProductData.value.data.gallery;
+        dataFetched.value = true;
+      }
+    });
+  }
+);
 
 function imageRatio(e) {
   let height = e.dimensions.height;
@@ -63,10 +85,9 @@ function imageRatio(e) {
     "max-width": maxHeight * ratio + "px",
   };
 }
-
 </script>
 <style scoped>
 .image-wrapper {
-  transform:scale(1);
+  transform: scale(1);
 }
 </style>

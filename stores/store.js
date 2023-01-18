@@ -6,7 +6,9 @@ export const useDataStore = defineStore({
     return {
       currentObservedProject: 0,
       selectedCurrencyState: 'eur',
-      prismicData: {}
+      prismicData: {},
+      shopData: {},
+      productData: {}
     }
   },
   actions: {
@@ -29,11 +31,19 @@ export const useDataStore = defineStore({
     },
     updatePrismicData (el) {
       this.prismicData = el
+    },
+    updateShopData (el) {
+      this.shopData = el
+    },
+    updateProductData (el) {
+      this.productData = el
     }
   },
   getters: {
     getCurrentObserved: state => state.currentObservedProject,
     getSelectedCurrency: state => state.selectedCurrencyState,
-    getPrismicData: state => state.prismicData
+    getPrismicData: state => state.prismicData,
+    getShopData: state => state.shopData,
+    getProductData: state => state.productData
   }
 })

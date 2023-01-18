@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid pt-5">
+  <div class="container-fluid pt-5 mt-2 mt-md-0 mb-5 mb-md-0">
     <div v-show="!showGallery" class="row">
       <div v-show="video.video_id" class="col-12 mb-5">
         <div class="plyr__video-embed" id="player">
@@ -17,7 +17,7 @@
           @click="displayGallery(image)"
           v-for="(image, index) in orderedArtworks.left"
           :key="index"
-          class="col-12"
+          class="col-12 gallery-item"
         >
           <img
             class="img-fluid lazyload"
@@ -35,7 +35,7 @@
           @click="displayGallery(image)"
           v-for="(image, index) in orderedArtworks.right"
           :key="index"
-          class="col-12"
+          class="col-12 gallery-item"
         >
           <img
             class="img-fluid lazyload"
