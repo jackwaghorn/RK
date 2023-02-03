@@ -1,16 +1,13 @@
 <template>
   <div class="container-fluid pt-5 mt-2 mt-md-0 pb-5">
- 
     <div class="row">
       <div class="col-md-6 col-12 pe-md-2">
-        <div
-          v-for="(product, index) in left"
-          :key="index"
-          class="col-12"
-        >
+        <div v-for="(product, index) in left" :key="index" class="col-12">
           <router-link :to="`/shop/${product.uid}`">
             <img
-              class="img-fluid lazyload"
+              data-expand="-30"
+              :src="`${product.data.gallery[0].image1.url}?&q=0?fit=clip&h=80&w=80`"
+              class="img-fluid lazyload blur-up"
               :height="product.data.gallery[0].image1.dimensions.height"
               :width="product.data.gallery[0].image1.dimensions.width"
               :data-src="product.data.gallery[0].image1.url"
@@ -35,14 +32,12 @@
       </div>
 
       <div class="col-md-6 col-12 ps-md-2">
-        <div
-          v-for="(product, index) in right"
-          :key="index"
-          class="col-12"
-        >
+        <div v-for="(product, index) in right" :key="index" class="col-12">
           <router-link :to="`/shop/${product.uid}`">
             <img
-              class="img-fluid lazyload"
+              data-expand="-30"
+              :src="`${product.data.gallery[0].image1.url}?&q=0?fit=clip&h=80&w=80`"
+              class="img-fluid lazyload blur-up"
               :height="product.data.gallery[0].image1.dimensions.height"
               :width="product.data.gallery[0].image1.dimensions.width"
               :data-src="product.data.gallery[0].image1.url"

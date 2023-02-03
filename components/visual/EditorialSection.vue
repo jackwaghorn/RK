@@ -1,16 +1,12 @@
 <template>
   <div class="container-fluid pt-5 mt-2 mt-md-0">
     <div
-      class="pb-5 mb-5 project-gallery"
+      class="pb-5 mb-5 project-gallery "
       v-for="(gallery, index) in projectGalleries.data.body"
       :key="index"
       :id="index"
     >
-    <div class="d-block d-md-none">
-      <div class="col-12 title mb-2">{{ gallery.primary.title[0].text }}</div>
-      <prismic-rich-text
-        :field="gallery.primary.description"
-      ></prismic-rich-text></div>
+    
 
       <Swiper
         :slidesPerView="1"
@@ -27,15 +23,18 @@
             d-flex
             justify-content-center
             flex-column
-            align-items-center align-self-center
+            align-items-center 
           "
           :id="index"
         >
-          <div class="image-wrapper d-flex align-items-center">
+          <div class="image-wrapper d-flex align-items-center
+           align-self-center">
             <img
-              :src="slide.image.url"
+              data-expand="-30"
+              :data-src="slide.image.url"
+              :src="`${slide.image.url}?&q=0?fit=clip&h=80&w=80`"
               alt=""
-              class="img-fluid"
+              class="img-fluid lazyload"
               :height="slide.image.dimensions.height"
               :width="slide.image.dimensions.width"
             />
@@ -43,6 +42,12 @@
           <!-- <div class="caption align-self-start pt-1">{{ slide.image.alt }}</div> -->
         </SwiperSlide>
       </Swiper>
+        <div class="d-block d-md-none">
+        <div class="col-12 title mb-2 mt-4">{{ gallery.primary.title[0].text }}</div>
+        <prismic-rich-text
+          :field="gallery.primary.description"
+        ></prismic-rich-text>
+      </div>
     </div>
   </div>
 </template>
@@ -140,6 +145,13 @@ function imageRatio(e) {
     transform: scale(1);
     height: 85vh;
   }
+  .image-wrapper img {
+    max-height: 85vh;
+    width:auto;
+  }
+  .image-slide {
+  padding: 0 4rem 0 4rem;
+}
 }
 
 .swiper-button-next {
@@ -163,7 +175,7 @@ function imageRatio(e) {
   display: none;
 }
 .image-slide {
-  padding: 0 4rem 0 4rem;
+  padding: 0;
 }
 
 .caption {

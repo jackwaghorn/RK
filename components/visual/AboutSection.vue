@@ -11,7 +11,13 @@
         :key="index"
         class="col-12 pb-5 d-flex justify-content-center"
       >
-        <img class="img-fluid lazyload" :data-src="image.image.url" alt="" />
+        <img
+          class="img-fluid lazyload blur-up"
+          data-expand="-30"
+          :src="`${image.image.url}?&q=0?fit=clip&h=80&w=80`"
+          :data-src="image.image.url"
+          alt=""
+        />
       </div>
     </div>
   </div>

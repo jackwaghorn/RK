@@ -5,11 +5,13 @@
       v-for="(gallery, index) in projectGalleries.data.body"
       :key="index"
       :id="index"
-    ><div class="d-block d-md-none">
-         <div class="col-12 title mb-2">{{ gallery.primary.title[0].text }}</div>
-      <prismic-rich-text
-        :field="gallery.primary.description"
-      ></prismic-rich-text></div>
+    >
+      <div class="d-block d-md-none">
+        <div class="col-12 title mb-2">{{ gallery.primary.title[0].text }}</div>
+        <prismic-rich-text
+          :field="gallery.primary.description"
+        ></prismic-rich-text>
+      </div>
       <Swiper
         :slidesPerView="1"
         :spaceBetween="0"
@@ -25,16 +27,17 @@
             d-flex
             justify-content-center
             flex-column
-            align-items-center
-            align-self-center
+            align-items-center align-self-center
           "
           :id="index"
         >
           <div class="image-wrapper d-flex align-items-center">
             <img
-              :src="slide.image.url"
+              data-expand="-30"
+              :src="`${slide.image.url}?&q=0?fit=clip&h=80&w=80`"
+              :data-src="slide.image.url"
               alt=""
-              class="img-fluid"
+              class="img-fluid lazyload blur-up"
               :height="slide.image.dimensions.height"
               :width="slide.image.dimensions.width"
             />

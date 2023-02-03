@@ -2,7 +2,17 @@
   <div class="d-none d-md-block">
     <nav class="d-flex justify-content-between">
       <div class="dot-wrapper">
-        <div ref="dot" class="dot"></div>
+        <div class="dot"></div>
+        <input
+          @mousedown="dotScroll = true"
+          @mouseup="dotScroll = false"
+          v-model="dot"
+          type="range"
+          min="1"
+          step="0.01"
+          max="100"
+          class="slider"
+        />
       </div>
       <div
         class="
@@ -143,7 +153,21 @@ function enableScroll() {
   document.body.style.overflow = "auto";
 }
 
-const dot = ref(null);
+const dot = ref(0);
+
+const dotScroll = ref(false);
+
+watch(dot, () => {
+  if (dotScroll.value) {
+    let maxHeight = document.body.scrollHeight - window.innerHeight;
+
+    window.scrollTo({
+      top: maxHeight * (dot.value / 100),
+      left: 0,
+      behavior: "instant",
+    });
+  }
+});
 onMounted(() => {
   if (route.name === "shop-uid") {
     selectedLink.value = links.indexOf("shop");
@@ -152,10 +176,13 @@ onMounted(() => {
   }
 
   window.addEventListener("scroll", function () {
-    let maxHeight = document.body.scrollHeight - window.innerHeight;
-    if (dot.value) {
-      dot.value.style.top =
-        Math.min(100, (window.pageYOffset * 100) / maxHeight) + "%";
+    if (!dotScroll.value) {
+      let maxHeight = document.body.scrollHeight - window.innerHeight;
+
+      dot.value = Math.min(
+        100,
+        Math.max(0, (window.pageYOffset * 100) / maxHeight)
+      );
     }
   });
 });
@@ -191,6 +218,37 @@ onMounted(() => {
   left: 0;
   top: 0;
   transition: top ease-out 100ms;
+  display: none;
+}
+.slider {
+  height: 1px;
+  width: calc(100vh - 112px);
+  position: absolute;
+  left:1.4rem;
+  transform: rotate(90deg);
+  transform-origin: left;
+  background: black;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 0.55rem;
+  width: 0.55rem;
+  border-radius: 50%;
+  background: #000000;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #000000;
+  cursor: pointer;
 }
 
 .dot-wrapper {
@@ -264,7 +322,7 @@ onMounted(() => {
   top: 0;
   bottom: 0;
   height: 100%;
-  border-left: 1px solid black;
+  /* border-left: 1px solid black; */
 }
 
 nav {

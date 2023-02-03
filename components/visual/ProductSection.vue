@@ -23,9 +23,11 @@
       >
         <div class="image-wrapper d-flex align-items-center">
           <img
+            data-expand="-30"
+            :src="`${slide.image1.url}?&q=0`"
             :data-src="slide.image1.url"
             alt=""
-            class="img-fluid lazyload"
+            class="img-fluid lazyload blur-up"
             :height="slide.image1.dimensions.height"
             :width="slide.image1.dimensions.width"
           />

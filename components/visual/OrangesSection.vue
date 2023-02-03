@@ -12,7 +12,7 @@
         </div>
       </div>
       <!-- Left -->
-      <div class="col-md-6 col-12 pe-md-2">
+      <div class="col-md-6 col-12 pe-md-3">
         <div
           @click="displayGallery(image)"
           v-for="(image, index) in orderedArtworks.left"
@@ -20,7 +20,9 @@
           class="col-12 gallery-item"
         >
           <img
-            class="img-fluid lazyload"
+            data-expand="-30"
+            :src="`${image.image.url}?&q=0?fit=clip&h=80&w=80`"
+            class="img-fluid lazyload blur-up"
             :height="image.image.dimensions.height"
             :width="image.image.dimensions.width"
             :data-src="image.image.url"
@@ -30,7 +32,7 @@
         </div>
       </div>
 
-      <div class="col-md-6 col-12 ps-md-2">
+      <div class="col-md-6 col-12 ps-md-3">
         <div
           @click="displayGallery(image)"
           v-for="(image, index) in orderedArtworks.right"
@@ -38,7 +40,9 @@
           class="col-12 gallery-item"
         >
           <img
-            class="img-fluid lazyload"
+            data-expand="-30"
+            :src="`${image.image.url}?&q=0?fit=clip&h=80&w=80`"
+            class="img-fluid lazyload blur-up"
             :height="image.image.dimensions.height"
             :width="image.image.dimensions.width"
             :data-src="image.image.url"
@@ -91,9 +95,11 @@
             class="image-wrapper d-flex align-items-center"
           >
             <img
-              :src="slide.image.url"
+              data-expand="-30"
+              :src="`${slide.image.url}?&q=0?fit=clip&h=80&w=80`"
+              :data-src="slide.image.url"
               alt=""
-              class="img-fluid"
+              class="img-fluid lazyload blur-up"
               :height="slide.image.dimensions.height"
               :width="slide.image.dimensions.width"
             />

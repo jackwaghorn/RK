@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid pt-5 mt-2 mt-md-0 mb-5 mb-md-0">
     <div v-show="!showGallery" class="row">
-      <div class="col-md-6 col-12 pe-md-2">
+      <div class="col-md-6 col-12 pe-md-3">
         <div
           @click="displayGallery(image)"
           v-for="(image, index) in orderedArtworks.left"
@@ -9,17 +9,19 @@
           class="col-12 gallery-item"
         >
           <img
-            class="img-fluid lazyload"
+            data-expand="-30"
+            class="img-fluid lazyload blur-up"
             :height="image.image.dimensions.height"
             :width="image.image.dimensions.width"
-            :data-src="image.image.url"
+            :data-src="`${image.image.url}`"
+            :src="`${image.image.url}?&q=0?fit=clip&h=80&w=80`"
             alt="image.image.alt"
           />
           <div class="col-12 pb-3 pt-1 caption">{{ image.image.alt }}</div>
         </div>
       </div>
 
-      <div class="col-md-6 col-12 ps-md-2">
+      <div class="col-md-6 col-12 ps-md-3">
         <div
           @click="displayGallery(image)"
           v-for="(image, index) in orderedArtworks.right"
@@ -27,10 +29,12 @@
           class="col-12 gallery-item"
         >
           <img
-            class="img-fluid lazyload"
+            data-expand="-30"
+            class="img-fluid lazyload blur-up"
             :height="image.image.dimensions.height"
             :width="image.image.dimensions.width"
             :data-src="image.image.url"
+            :src="`${image.image.url}?&q=0?fit=clip&h=80&w=80`"
             alt="image.image.alt"
           />
 
@@ -80,9 +84,11 @@
             class="image-wrapper d-flex align-items-center"
           >
             <img
+              data-expand="-30"
               :data-src="slide.image.url"
+              :src="`${slide.image.url}?&q=0`"
               alt=""
-              class="img-fluid lazyload"
+              class="img-fluid lazyload blur-up"
               :height="slide.image.dimensions.height"
               :width="slide.image.dimensions.width"
             />
@@ -162,9 +168,9 @@ function clickCross() {
 }
 </script>
 
-<style>
+<style scoped>
 .gallery-item:hover {
-cursor:pointer;
+  cursor: pointer;
 }
 .custom-swiper-container {
   opacity: 0;
@@ -187,7 +193,7 @@ cursor:pointer;
   z-index: 2;
 }
 .close-cross:hover {
-  cursor:pointer;
+  cursor: pointer;
 }
 .image-wrapper {
   transition: transform ease 500ms;

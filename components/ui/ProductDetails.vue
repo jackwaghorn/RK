@@ -55,7 +55,7 @@
         </button>
       </div>
     </div>
-    <div class="col-12 mt-4" v-if="currentStock > 0">
+    <div class="col-12 mt-4 mb-4" v-if="currentStock > 0">
       <button
         class="snipcart-add-item p-0"
         :data-item-id="id"
