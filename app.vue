@@ -1,5 +1,5 @@
 <template>
-  <div class="content-wrapper">
+  <div :class="[route.name === 'index' ? 'content-wide' : '']" class="content-wrapper">
     <client-only>
       <transition name="route" mode="out-in">
         <component
@@ -51,6 +51,7 @@ const route = useRoute();
 }
 .content-wrapper {
   max-width: 100%;
+    transition:max-width ease 200ms;
 }
 
 .blur-up {
@@ -76,6 +77,9 @@ const route = useRoute();
     margin-left: 2rem;
     max-width: calc(100% - 30rem);
   }
+}
+.content-wide {
+  max-width:100%;
 }
 .route-page {
   font-size: 0.85rem;

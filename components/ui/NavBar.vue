@@ -1,6 +1,7 @@
 <template>
-  <div class="d-none d-md-block">
-    <nav class="d-flex justify-content-between">
+  <div  class=" d-none d-md-block">
+    <nav :class="[route.name === 'index' ? 'nav-h' : '']" class="nav-s d-flex justify-content-between">
+
       <div class="dot-wrapper">
         <div class="dot"></div>
         <input
@@ -188,6 +189,15 @@ onMounted(() => {
 });
 </script>
 <style scoped>
+.nav-h {
+
+  transform:translateX(100%) !important;
+}
+.nav-s {
+ transform:translateX(0%);
+
+  transition:transform ease 200ms;
+}
 .mobile-nav-modal {
   background: #f5f5f5f8;
   backdrop-filter: blur(10px);
